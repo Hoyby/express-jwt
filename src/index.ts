@@ -2,6 +2,8 @@ import 'reflect-metadata'
 import { createConnection } from "typeorm";
 import express, { Application } from "express";
 import dotenv from "dotenv"
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dbConfig from "./config/database";
 import jwt from "jsonwebtoken"
 import Router from "./routes"
@@ -11,11 +13,10 @@ dotenv.config()
 
 const PORT = process.env.PORT || 8000
 const app: Application = express();
+const corsOption = {credentials:true, orgin: process.env.URL || '*'}
 
-//dotenv
-//cookieParser
-//cors
-
+app.use(cors(corsOption))
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: false}))
 
 app.use(Router)

@@ -10,9 +10,11 @@ router.post("/", async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await getUser(email)
+
         //PASSWORD CHECK
         const validPassword = await bcrypt.compare(password, user!.password)
         if (!validPassword) return res.status(401).json({ error: "incorrect password" })
+
         //JWT
         let tokens = jwtTokens(user!)
         res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true })
@@ -26,16 +28,18 @@ router.post("/", async (req, res) => {
 
 router.get('/refresh_token', (req, res) => {
     try {
-        console.log("test");
-        const refreshToken = req.cookies.refresh_token //?
+        //get cookie
+        const refreshToken = req.cookies.refresh_token
         if (refreshToken === null) return res.status(401).json({ error: 'null refresh token' })
+
+        //check for match
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!, (error: any, user: any) => {
             if (error) return res.status(403).json({ error: error.message })
             let tokens = jwtTokens(user)
             res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true })
             res.json(tokens)
         })
-        return res.json(refreshToken);
+
     } catch (error) {
         return res.status(401).json({ error: error.message })
     }
