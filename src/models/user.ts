@@ -10,10 +10,10 @@ import {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({ unique: true })
     email!: string;
 
-    @Column()
+    @Column({ nullable: false })
     password!: string;
   
     @Column()

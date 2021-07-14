@@ -1,6 +1,6 @@
 import express from "express";
 import { getUsers, createUser, getUser } from "../repositories/user.repository";
-
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
@@ -10,7 +10,8 @@ router.get("/", async (_req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
+  const hashedPassword = await bcrypt.hash(req.body.password, 10); //hash password 10 rounds
+  req.body.password = hashedPassword;
   const response = await createUser(req.body);
   return res.send(response);
 });
