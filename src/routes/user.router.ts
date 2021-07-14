@@ -1,10 +1,11 @@
 import express from "express";
 import { getUsers, createUser, getUser } from "../repositories/user.repository";
 import bcrypt from 'bcrypt';
+import { authenticateToken } from "../middleware/authorization";
 
 const router = express.Router();
 
-router.get("/", async (_req, res) => {
+router.get("/",authenticateToken, async (_req, res) => {
   const response = await getUsers();
   return res.send(response);
 });

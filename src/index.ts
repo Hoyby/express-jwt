@@ -1,12 +1,13 @@
 import 'reflect-metadata' 
 import { createConnection } from "typeorm";
 import express, { Application } from "express";
-// import Router from "./routes";
+import dotenv from "dotenv"
 import dbConfig from "./config/database";
 import jwt from "jsonwebtoken"
 import Router from "./routes"
 import bodyParser from "body-parser";
 
+dotenv.config()
 
 const PORT = process.env.PORT || 8000
 const app: Application = express();
