@@ -14,3 +14,6 @@ docker-compose up
 ```bash
 yarn dev
 ```
+
+JWT key generation:
+console.log(require('crypto').randomBytes(256).toString('base64'));
