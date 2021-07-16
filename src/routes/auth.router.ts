@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
         res.json(tokens)
 
     } catch (error) {
-        return res.status(401).json({ error: error.message })
+        res.status(401).json({ error: error.message })
     }
 
 });
@@ -39,13 +39,24 @@ router.get('/refresh_token', (req, res) => {
 
             //respond with new tokens
             let tokens = jwtTokens(user)
+            //FIXME { httpOnly: true, sameSite: 'none', secure: 'true' } for deploy
             res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true })
             res.json(tokens)
         })
 
     } catch (error) {
-        return res.status(401).json({ error: error.message })
+        res.status(401).json({ error: error.message })
     }
 })
+
+router.delete('/refresh_token', (req, res) => {
+    try {
+        res.clearCookie('refresh_token')
+        return res.status(200).json({ message: 'refresh token deleted' })
+    } catch (error) {
+        res.status(401).json({ error: error.message })
+    }
+}
+)
 
 export default router;
