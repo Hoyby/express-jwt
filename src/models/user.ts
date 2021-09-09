@@ -16,7 +16,7 @@ import {
     @Column({ nullable: false })
     password!: string;
   
-    @Column()
+    @Column({ nullable: false })
     name!: string;
   
     @CreateDateColumn()

@@ -13,7 +13,6 @@ export const getUsers = async (): Promise<Array<User>> => {
 };
 
 export const createUser = async (payload: IUserPayload): Promise<User> => {
-
   const userRepository = getRepository(User);
   const user = new User();
   return userRepository.save({
